@@ -5,8 +5,9 @@
 
 class Player : public Person {
 public:
-    static Player* create();
-    void jump();
+    Player(const std::string& spritePath = "");
+    void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
+    void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
     void update(float dt) override;
     void onCollision(Person* other) override;
 };

@@ -18,5 +18,13 @@ bool GameScene::init()
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+    this->player = PlayerFactory::createPlayer("");
+    this->addChild(player);
+
+    this->scheduleUpdate();
     return true;
+}
+
+void GameScene::update(float dt) {
+    this->player->update(dt);
 }
