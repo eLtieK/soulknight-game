@@ -9,7 +9,7 @@ public:
     Person(const std::string& spritePath = "", float x = WINDOW_WIDTH / 2, float y = WINDOW_HEIGHT / 2, float width = 50, float height = 50, float speed = 1000);
     /*virtual ~Person() = 0;*/
 
-    void move(float dt);
+    virtual void move(float dt);
     virtual void update(float dt);
     virtual void onCollision(Person* other) = 0;
 

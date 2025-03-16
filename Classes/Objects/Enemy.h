@@ -3,11 +3,13 @@
 
 #include "Person.h"
 
+
 class Enemy : public Person {
 public:
-    static Enemy* create();
+    Enemy(const std::string& spritePath = "");
     void update(float dt) override;
     void onCollision(Person* other) override;
+    void move(float dt) override;
 };
 
 #endif // ENEMY_H
