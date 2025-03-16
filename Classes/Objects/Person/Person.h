@@ -2,7 +2,7 @@
 #define PERSON_H
 
 #include "cocos2d.h"
-#include "./Utils/loader.h"
+#include "../../Utils/loader.h"
 
 class Person : public cocos2d::Sprite {
 public:

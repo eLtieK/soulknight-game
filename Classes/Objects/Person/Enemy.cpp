@@ -1,5 +1,5 @@
-#include "./Enemy.h"
-#include "../Scenes/GameScene.h"
+#include "Enemy.h"
+#include "../../Scenes/GameScene.h"
 
 Enemy::Enemy(const std::string& spritePath) : Person(spritePath) {
 	

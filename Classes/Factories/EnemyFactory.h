@@ -1,7 +1,7 @@
 #ifndef ENEMY_FACTORY_H
 #define ENEMY_FACTORY_H
 
-#include "../Objects/Enemy.h"
+#include "../Objects/Person/Enemy.h"
 
 class EnemyFactory {
 public:
