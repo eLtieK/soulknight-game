@@ -36,7 +36,7 @@ bool GameScene::init()
         Enemy* enemy = EnemyFactory::createEnemy("");
         float x = (float) (rand() % WINDOW_WIDTH);
         float y = (float) (rand() % WINDOW_HEIGHT);
-        float speed = (float) (100 + rand() % 601); //random tu 100-600
+        float speed = (float) (50 + rand() % 151); //random tu 100-150
 
         enemy->setPosition(Vec2(x, y));
         enemy->setSpeed(speed);

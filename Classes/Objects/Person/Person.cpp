@@ -9,7 +9,7 @@ Person::Person(const std::string& spritePath , float x, float y, float width, fl
         this->initWithFile(spritePath);
     else {
         this->init();
-        this->setTextureRect(cocos2d::Rect(this->x, this->y, this->width, this->height));
+        this->setTextureRect(cocos2d::Rect(0, 0, this->width, this->height));
         this->setColor(cocos2d::Color3B::WHITE);
     }
 }

@@ -15,6 +15,10 @@ public:
 
     // setter
     void setSpeed(float speed) { this->speed = speed; };
+    float getX() { return this->x; };
+    float getY() { return this->y; };
+    float getW() { return this->width; };
+    float getH() { return this->height; };
 
 protected:
     float x = 0, y = 0;

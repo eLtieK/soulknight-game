@@ -1,4 +1,5 @@
 #include "Factories/PlayerFactory.h"
+const char* PLAYER_PATH = "images/0.png";
 
 Player* PlayerFactory::createPlayer(const std::string& type) {
     /*if (type == "zombie") {
@@ -7,5 +8,5 @@ Player* PlayerFactory::createPlayer(const std::string& type) {
     else if (type == "robot") {
         return Player::create("robot.png", 200, 20);
     }*/
-    return new Player();
+    return new Player(PLAYER_PATH);
 }
