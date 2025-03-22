@@ -1,7 +1,7 @@
 #ifndef PLAYER_FACTORY_H
 #define PLAYER_FACTORY_H
 
-#include "Objects/Player.h"
+#include "../Objects/Person/Player.h"
 
 class PlayerFactory {
 public:

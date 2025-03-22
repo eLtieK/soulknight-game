@@ -7,5 +7,5 @@ Enemy* EnemyFactory::createEnemy(const std::string& type) {
     else if (type == "robot") {
         return Enemy::create("robot.png", 200, 20);
     }*/
-    return nullptr;
+    return new Enemy();
 }
