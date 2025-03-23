@@ -73,6 +73,8 @@ bool GameScene::init()
     GameManager::getInstance()->setBoss(false);
     GameManager::getInstance()->setEnemy(false);
     GameManager::getInstance()->setOver(false);
+    GameManager::getInstance()->setCoins(0);
+    GameManager::getInstance()->setEnemyLeft(0);
 
     this->initMap();
 
@@ -86,6 +88,8 @@ bool GameScene::init()
 
     this->initCam();
 
+    this->initUi();
+
     this->scheduleUpdate();
     return true;
 }
@@ -98,6 +102,9 @@ void GameScene::update(float dt) {
     for (Enemy* enemy : this->enemies) {
         if (enemy) enemy->update(dt);
     }
+    
+    cocos2d::Vec2 newUIpos = player->getPosition() - Director::getInstance()->getVisibleSize() / 2;
+    this->ui->updateUI(newUIpos, GameManager::getInstance()->getCoins(), GameManager::getInstance()->getEnemyLeft());
 
     //Collision
     CollisionManager::checkCollisionWithWeapon(player->getCurrentWeapon(), bullets, reinterpret_cast<std::vector<cocos2d::Sprite*>&>(enemies));
@@ -130,6 +137,11 @@ void GameScene::update(float dt) {
 void GameScene::initCam() {
     auto follow = Follow::create(player, Rect(0, 0, tileMap->getContentSize().width, tileMap->getContentSize().height));
     this->runAction(follow);
+}
+
+void GameScene::initUi() {
+    this->ui = UILayer::create();
+    this->addChild(ui, 2);
 }
 
 void GameScene::initMap() {
@@ -211,6 +223,7 @@ void GameScene::initEnemy() {
         this->enemies.push_back(enemy);
     }
     if (!this->enemies.empty()) { GameManager::getInstance()->setEnemy(true); }
+    GameManager::getInstance()->setEnemyLeft(this->enemies.size());
 }
 
 void GameScene::initBoss() {
@@ -232,6 +245,7 @@ void GameScene::initBoss() {
         this->enemies.push_back(enemy);
         break;
     }
+    GameManager::getInstance()->setEnemyLeft(1);
 }
 
 void GameScene::initItem() {

@@ -5,8 +5,21 @@
 
 class SoundManager {
 public:
-    static SoundManager* getInstance();
-    void playEffect(const std::string& sound);
+    static void playEffect(const std::string& sound, bool loop = false);
+    static void playShoot();
+    static void playBleed();
+    static void playMove();
+    static void playSword();
+    static void playGold();
+    static void playJar();
+    static void playButton();
+    static void playTheme();
+
+    static void stopMove();
+
+private:
+    static int moveSoundId;
+    static int themeSoundId;
 };
 
 #endif // SOUND_MANAGER_H

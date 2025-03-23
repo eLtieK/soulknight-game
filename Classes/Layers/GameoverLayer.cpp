@@ -3,6 +3,7 @@
 #include "../Scenes/MainMenuScene.h"
 #include "../Managers/GameManager.h"
 #include "ui/CocosGUI.h"
+#include "../Managers/SoundManager.h"
 
 GameOverLayer* GameOverLayer::instance = nullptr;
 
@@ -82,19 +83,22 @@ GameOverLayer* GameOverLayer::create(GameOverLayer* other) {
 
 // Xử lý khi chọn New Game
 void GameOverLayer::onNewGame(cocos2d::Ref* sender, GameOverLayer* other) {
+    SoundManager::playButton();
     other->removeFromParentAndCleanup(true);
     this->removeFromParentAndCleanup(true);
-    cocos2d::Director::getInstance()->replaceScene(GameScene::createScene());
+    cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionFade::create(1.f, GameScene::createScene()));
 }
 
 // Xử lý khi chọn Main Menu
 void GameOverLayer::onMainMenu(cocos2d::Ref* sender, GameOverLayer* other) {
+    SoundManager::playButton();
     other->removeFromParentAndCleanup(true);
     this->removeFromParentAndCleanup(true);
-    cocos2d::Director::getInstance()->replaceScene(MainMenuScene::createScene());
+    cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionFade::create(1.f, MainMenuScene::createScene()));
 }
 
 // Xử lý khi chọn Quit
 void GameOverLayer::onQuit(cocos2d::Ref* sender) {
+    SoundManager::playButton();
     cocos2d::Director::getInstance()->end();
 }

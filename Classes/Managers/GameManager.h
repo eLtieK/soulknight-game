@@ -15,11 +15,19 @@ public:
     void setEnemy(bool isEnemy) { this->isEnemy = isEnemy; CCLOG("Enemy state set to: %s", isEnemy ? "true" : "false");}
     bool getEnemy() const { return this->isEnemy; }
 
+    void setEnemyLeft(int value) { this->enemyLeft += value; if (value == 0) { this->enemyLeft = 0; CCLOG("Enemies, %d", this->enemyLeft); } }
+    int getEnemyLeft() const { return this->enemyLeft; }
+
+    void setCoins(int value) { this->coins += value; if (value == 0) { this->coins = 0; CCLOG("Coins, %d", this->coins); } }
+    int getCoins() const { return this->coins; }
+
 private:
     static GameManager* instance;
     bool isOver = false;
     bool isBoss = false;
     bool isEnemy = false;
+    int coins = 0;
+    int enemyLeft = 0;
 };
 
 #endif // __GAME_MANAGER_H__

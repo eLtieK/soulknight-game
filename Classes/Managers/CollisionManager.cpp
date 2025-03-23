@@ -7,8 +7,9 @@
 #include "../Objects/Item/Coin.h"
 #include "../Objects/Person/Enemy.h"
 #include "../Objects/Person/Boss.h"
-#include "EffectManager.h"
 #include "../Factories/ItemFactory.h"
+#include "EffectManager.h"
+#include "SoundManager.h"
 
 bool CollisionManager::checkCollisionWithRects(Person* person) {
     //Boss
@@ -63,8 +64,12 @@ void CollisionManager::checkCollisionsSword(Weapon* weapon, std::vector<cocos2d:
             CCLOG("Sword hit Enemy! Enemy Removed");
             if (dynamic_cast<Enemy*>(sprite)) {
                 EffectManager::playBleedEffect(sprite->getParent(), sprite->getPosition());
+                SoundManager::playBleed();
+                SoundManager::playSword();
             }
             if (dynamic_cast<Jar*>(sprite)) {
+                SoundManager::playJar();
+                SoundManager::playSword();
                 EffectManager::playSmokeEffect(sprite->getParent(), sprite->getPosition());
 
                 //Add coin
@@ -117,9 +122,12 @@ void CollisionManager::checkCollisionsBullet(std::vector<Bullet*>& bullets, std:
                 // Xóa Enemy
                 if (dynamic_cast<Enemy*>(sprite)) {
                     EffectManager::playBleedEffect(sprite->getParent(), sprite->getPosition());
+                    SoundManager::playBleed();
+                    if (!dynamic_cast<Boss*>(sprite)) GameManager::getInstance()->setEnemyLeft(-1);
                 }
                 if (dynamic_cast<Jar*>(sprite)) {
                     EffectManager::playSmokeEffect(sprite->getParent(), sprite->getPosition());
+                    SoundManager::playJar();
                     Item* item = ItemFactory::createItem("coin");
                     item->setPosition(cocos2d::Vec2(sprite->getPosition()));
                     sprite->getParent()->addChild(item, 1);
@@ -134,6 +142,7 @@ void CollisionManager::checkCollisionsBullet(std::vector<Bullet*>& bullets, std:
                     if (boss->isDefeated()) {
                         sprite->removeFromParentAndCleanup(true);
                         itSprite = sprites.erase(itSprite);
+                        GameManager::getInstance()->setEnemyLeft(-1);
                     }
                     else ++itSprite;
                 }
@@ -171,6 +180,8 @@ bool CollisionManager::checkCollisionWithPlayer(Player* player, std::vector<coco
             if (dynamic_cast<Coin*>(sprite)) {
                 sprite->removeFromParentAndCleanup(true);
                 it = sprites.erase(it);  // Xóa phần tử an toàn
+                GameManager::getInstance()->setCoins(1);
+                SoundManager::playGold();
             }
             else {
                 ++it;

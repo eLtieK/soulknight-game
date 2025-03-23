@@ -10,6 +10,7 @@
 #include "../Managers/GameManager.h"
 #include "../Layers/GameoverLayer.h"
 #include "../Layers/AboutLayer.h"
+#include "../Layers/UiLayer.h"
 
 class Enemy;
 
@@ -20,6 +21,7 @@ public:
     static cocos2d::Scene* createScene();
     virtual bool init();
     void initMap();
+    void initUi();
     void initPlayer();
     void initEnemy();
     void initBoss();
@@ -46,6 +48,7 @@ private:
     std::vector<Item*> items;
     cocos2d::TMXTiledMap* tileMap;
     static std::vector<cocos2d::Rect> collisionRects;
+    UILayer* ui;
 };
 
 #endif // __GAME_SCENE_H__
