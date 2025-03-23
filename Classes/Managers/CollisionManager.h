@@ -5,13 +5,15 @@
 #include "../Objects/Person/Enemy.h"
 #include "../Objects/Person/Player.h"
 #include "../Objects/Weapon/Bullet.h"
+#include "../Objects/Item/Item.h"
 
 class CollisionManager {
 public:
-    static void checkCollisionWithWeapon(Weapon* weapon, std::vector<Bullet*>& bullets, std::vector<Enemy*>& enemies);
-    static void checkCollisionsSword(Weapon* weapon, std::vector<Enemy*>& enemies);
-    static void checkCollisionsBullet(std::vector<Bullet*>& bullets, std::vector<Enemy*>& enemies);
+    static void checkCollisionWithWeapon(Weapon* weapon, std::vector<Bullet*>& bullets, std::vector<cocos2d::Sprite*>& sprites);
+    static void checkCollisionsSword(Weapon* weapon, std::vector<cocos2d::Sprite*>& sprites);
+    static void checkCollisionsBullet(std::vector<Bullet*>& bullets, std::vector<cocos2d::Sprite*>& sprites);
     static bool checkCollisionWithRects(Person* person);
+    static bool checkCollisionWithPlayer(Player* player, std::vector<cocos2d::Sprite*>& sprites);
 };
 
 #endif
