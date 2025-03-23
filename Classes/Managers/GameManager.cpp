@@ -5,8 +5,8 @@ USING_NS_CC;
 GameManager* GameManager::instance = nullptr;
 
 GameManager* GameManager::getInstance() {
-    if (instance == nullptr) {
-        instance = new GameManager();
+    if (GameManager::instance == nullptr) {
+        GameManager::instance = new GameManager();
     }
-    return instance;
+    return GameManager::instance;
 }   

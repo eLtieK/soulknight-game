@@ -1,6 +1,7 @@
 ﻿#include "Player.h"
 #include "../../Factories/WeaponFactory.h"
 #include "../../Scenes/GameScene.h"
+#include "../../Managers/SoundManager.h"
 
 void Player::initAnimations() {
     // Load các frame animation
@@ -61,6 +62,8 @@ void Player::update(float dt) {
     this->move(dt);
     this->currentWeapon->update(dt);
     this->updateAnimation();
+    if (direction_left || direction_down || direction_right || direction_up) SoundManager::playMove();
+    else SoundManager::stopMove();
 }
 
 void Player::updateAnimation() {
@@ -111,5 +114,6 @@ void Player::onMouseDown(cocos2d::Event* event) {
     cocos2d::EventMouse* mouseEvent = dynamic_cast<cocos2d::EventMouse*>(event);
     if (mouseEvent->getMouseButton() == cocos2d::EventMouse::MouseButton::BUTTON_LEFT) {
         this->currentWeapon->attack();
+        SoundManager::playShoot();
     }
 }

@@ -1,4 +1,5 @@
 ﻿#include "AboutLayer.h"
+#include "../Managers/SoundManager.h"
 
 USING_NS_CC;
 
@@ -34,5 +35,6 @@ AboutLayer* AboutLayer::create()
 
 void AboutLayer::onClose(cocos2d::Ref* sender)
 {
+    SoundManager::playButton();
     this->removeFromParentAndCleanup(true);
 }
