@@ -8,16 +8,19 @@ void Player::initAnimations() {
     animDown = createAnimation("images/Player/down/", 3, 0.1f);
     animLeft = createAnimation("images/Player/left/", 3, 0.1f);
     animRight = createAnimation("images/Player/right/", 3, 0.1f);
+    standing = createAnimation("images/Player/standing/", 5, 0.1f);
 
     animUp->setLoops(-1);
     animDown->setLoops(-1);
     animLeft->setLoops(-1);
     animRight->setLoops(-1);
+    standing->setLoops(-1);
 
     animUp->retain();
     animDown->retain();
     animLeft->retain();
     animRight->retain();
+    standing->retain();
 }
 
 Player::Player(const std::string& spritePath) : Person(spritePath) {
@@ -62,6 +65,23 @@ void Player::update(float dt) {
     this->move(dt);
     this->currentWeapon->update(dt);
     this->updateAnimation();
+}
+
+void Player::updateAnimation() {
+    if (!this->direction_down && !this->direction_left && !this->direction_right && !this->direction_up) {
+        if (animateAction == nullptr) {
+            animateAction = cocos2d::Animate::create(standing);
+            this->runAction(animateAction);
+            CCLOG("INIT STAND");
+        }
+        else if (animateAction->getAnimation() != standing) {
+            this->stopAllActions();
+            animateAction = cocos2d::Animate::create(standing);
+            this->runAction(animateAction);
+            CCLOG("REINIT STAND");
+        }
+    }
+    Person::updateAnimation();
 }
 
 void Player::switchWeapon() {

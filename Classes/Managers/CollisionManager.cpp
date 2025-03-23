@@ -2,6 +2,7 @@
 #include "../Scenes/GameScene.h"
 #include "../Objects/Weapon/Gun.h"
 #include "../Objects/Weapon/Sword.h"
+#include "EffectManager.h"
 
 bool CollisionManager::checkCollisionWithRects(Person* person) {
     std::vector<cocos2d::Rect> collisionRects = GameScene::getCollisions();
@@ -51,6 +52,7 @@ void CollisionManager::checkCollisionsSword(Weapon* weapon, std::vector<cocos2d:
 
         if (weaponRect.intersectsRect(sprite->getBoundingBox())) {
             CCLOG("Sword hit Enemy! Enemy Removed");
+            EffectManager::playBleedEffect(sprite->getParent(), sprite->getPosition());
 
             // Xóa Enemy
             sprite->removeFromParentAndCleanup(true);
@@ -86,6 +88,7 @@ void CollisionManager::checkCollisionsBullet(std::vector<Bullet*>& bullets, std:
                 CCLOG("Bullet hit Enemy! Enemy Removed");
 
                 // Xóa Enemy
+                EffectManager::playBleedEffect(sprite->getParent(), sprite->getPosition());
                 sprite->removeFromParentAndCleanup(true);
                 itSprite = sprites.erase(itSprite);
 
