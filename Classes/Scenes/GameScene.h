@@ -22,6 +22,7 @@ public:
     void initMap();
     void initPlayer();
     void initEnemy();
+    void initBoss();
     void initCam();
     void initItem();
     void initCollisions();

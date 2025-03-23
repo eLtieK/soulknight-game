@@ -71,6 +71,7 @@ bool GameScene::init()
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
     GameManager::getInstance()->setOver(false);
+    GameManager::getInstance()->setBoss(false);
 
     this->initMap();
 
@@ -107,6 +108,12 @@ void GameScene::update(float dt) {
         GameOverLayer* fakeLayer = GameOverLayer::createFake();
         cocos2d::Director::getInstance()->getRunningScene()->addChild(fakeLayer, 10);
         cocos2d::Director::getInstance()->getRunningScene()->addChild(GameOverLayer::create(fakeLayer), 0);
+    }
+
+    //Boss
+    if (this->enemies.empty() && !GameManager::getInstance()->getBoss()) {
+        GameManager::getInstance()->setBoss(true);
+        this->initBoss();
     }
 }
 
@@ -192,6 +199,27 @@ void GameScene::initEnemy() {
 
         this->addChild(enemy, 1);
         this->enemies.push_back(enemy);
+    }
+}
+
+void GameScene::initBoss() {
+    auto objectGroup = tileMap->getObjectGroup("Entities");
+    auto objects = objectGroup->getObjects();
+    for (const auto& obj : objects) {
+        auto objMap = obj.asValueMap();
+
+        std::string objName = objMap["name"].asString();
+        if (objName != "Boss") continue;
+
+        float x = objMap["x"].asFloat();
+        float y = objMap["y"].asFloat();
+
+        Enemy* enemy = EnemyFactory::createEnemy("boss");
+        enemy->setPosition(Vec2(x, y));
+
+        this->addChild(enemy, 1);
+        this->enemies.push_back(enemy);
+        break;
     }
 }
 

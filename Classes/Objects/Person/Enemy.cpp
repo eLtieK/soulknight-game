@@ -78,7 +78,3 @@ void Enemy::update(float dt) {
 	this->move(dt);
 	this->updateAnimation();
 }
-
-void Enemy::onCollision(Person * other) {
-
-}

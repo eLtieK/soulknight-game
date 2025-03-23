@@ -16,8 +16,6 @@ Person::Person(const std::string& spritePath , float x, float y, float width, fl
     }
 }
 
-#include "Person.h"
-
 Person::~Person() {
     // Giải phóng bộ nhớ của các animation nếu chúng tồn tại
     if (animUp) {
@@ -60,8 +58,8 @@ void Person::move(float dt) {
 
     int length = (dx * dx + dy * dy);
     if (length == 2) { //normalize
-        dx /= std::sqrt(length);
-        dy /= std::sqrt(length);
+        dx /= (float)std::sqrt(length);
+        dy /= (float)std::sqrt(length);
     }
 
     this->x += dx * this->speed * dt;

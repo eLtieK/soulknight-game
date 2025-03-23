@@ -2,9 +2,16 @@
 #include "../Scenes/GameScene.h"
 #include "../Objects/Weapon/Gun.h"
 #include "../Objects/Weapon/Sword.h"
+#include "../Objects/Item/Item.h"
+#include "../Objects/Item/Jar.h"
+#include "../Objects/Person/Enemy.h"
+#include "../Objects/Person/Boss.h"
 #include "EffectManager.h"
 
 bool CollisionManager::checkCollisionWithRects(Person* person) {
+    //Boss
+    if (dynamic_cast<Boss*>(person)) return false;
+
     std::vector<cocos2d::Rect> collisionRects = GameScene::getCollisions();
 
     // Log vị trí của person
@@ -52,12 +59,21 @@ void CollisionManager::checkCollisionsSword(Weapon* weapon, std::vector<cocos2d:
 
         if (weaponRect.intersectsRect(sprite->getBoundingBox())) {
             CCLOG("Sword hit Enemy! Enemy Removed");
-            EffectManager::playBleedEffect(sprite->getParent(), sprite->getPosition());
+            if (dynamic_cast<Enemy*>(sprite)) {
+                EffectManager::playBleedEffect(sprite->getParent(), sprite->getPosition());
+            }
+            if (dynamic_cast<Jar*>(sprite)) {
+                EffectManager::playSmokeEffect(sprite->getParent(), sprite->getPosition());
+            }
 
             // Xóa Enemy
-            sprite->removeFromParentAndCleanup(true);
-            itSprite = sprites.erase(itSprite);
-
+            if (dynamic_cast<Boss*>(sprite)) {
+                ++itSprite; //Boss cant kill with sword
+            }
+            else {
+                sprite->removeFromParentAndCleanup(true);
+                itSprite = sprites.erase(itSprite);
+            }
         }
         else {
             ++itSprite;
@@ -88,11 +104,30 @@ void CollisionManager::checkCollisionsBullet(std::vector<Bullet*>& bullets, std:
                 CCLOG("Bullet hit Enemy! Enemy Removed");
 
                 // Xóa Enemy
-                EffectManager::playBleedEffect(sprite->getParent(), sprite->getPosition());
-                sprite->removeFromParentAndCleanup(true);
-                itSprite = sprites.erase(itSprite);
+                if (dynamic_cast<Enemy*>(sprite)) {
+                    EffectManager::playBleedEffect(sprite->getParent(), sprite->getPosition());
+                }
+                if (dynamic_cast<Jar*>(sprite)) {
+                    EffectManager::playSmokeEffect(sprite->getParent(), sprite->getPosition());
+                }
 
                 bulletHit = true;
+
+                if (dynamic_cast<Boss*>(sprite)) {
+                    Boss* boss = dynamic_cast<Boss*>(sprite);
+                    boss->onHit();
+                    if (boss->isDefeated()) {
+                        sprite->removeFromParentAndCleanup(true);
+                        itSprite = sprites.erase(itSprite);
+                    }
+                    else {
+                        ++itSprite;
+                    }
+                }
+                else {
+                    sprite->removeFromParentAndCleanup(true);
+                    itSprite = sprites.erase(itSprite);
+                }
             }
             else {
                 ++itSprite;

@@ -9,9 +9,13 @@ public:
     void setOver(bool isOver) { this->isOver = isOver; }
     bool getOver() { return this->isOver; }
 
+    void setBoss(bool isBoss) { this->isBoss = isBoss; }
+    bool getBoss() { return this->isBoss; }
+
 private:
     static GameManager* instance;
     bool isOver = false;
+    bool isBoss = false;
 };
 
 #endif // __GAME_MANAGER_H__
