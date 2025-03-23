@@ -70,8 +70,9 @@ bool GameScene::init()
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    GameManager::getInstance()->setOver(false);
     GameManager::getInstance()->setBoss(false);
+    GameManager::getInstance()->setEnemy(false);
+    GameManager::getInstance()->setOver(false);
 
     this->initMap();
 
@@ -101,19 +102,28 @@ void GameScene::update(float dt) {
     //Collision
     CollisionManager::checkCollisionWithWeapon(player->getCurrentWeapon(), bullets, reinterpret_cast<std::vector<cocos2d::Sprite*>&>(enemies));
     CollisionManager::checkCollisionWithWeapon(player->getCurrentWeapon(), bullets, reinterpret_cast<std::vector<cocos2d::Sprite*>&>(items));
+    CollisionManager::checkCollisionWithPlayer(player, reinterpret_cast<std::vector<cocos2d::Sprite*>&>(items));
 
     bool isOver = CollisionManager::checkCollisionWithPlayer(player, reinterpret_cast<std::vector<cocos2d::Sprite*>&>(enemies));
     if (isOver) {
         GameManager::getInstance()->setOver(isOver);
-        GameOverLayer* fakeLayer = GameOverLayer::createFake();
+        GameOverLayer* fakeLayer = GameOverLayer::createFake("Game Over");
         cocos2d::Director::getInstance()->getRunningScene()->addChild(fakeLayer, 10);
         cocos2d::Director::getInstance()->getRunningScene()->addChild(GameOverLayer::create(fakeLayer), 0);
     }
 
     //Boss
-    if (this->enemies.empty() && !GameManager::getInstance()->getBoss()) {
+    if (this->enemies.size() == 5 && !GameManager::getInstance()->getBoss() && GameManager::getInstance()->getEnemy()) {
         GameManager::getInstance()->setBoss(true);
+        GameManager::getInstance()->setEnemy(false);
         this->initBoss();
+    }
+    if (this->enemies.empty() && GameManager::getInstance()->getBoss()) {
+        GameManager::getInstance()->setOver(true);
+        GameManager::getInstance()->setBoss(false);
+        GameOverLayer* fakeLayer = GameOverLayer::createFake("Victory");
+        cocos2d::Director::getInstance()->getRunningScene()->addChild(fakeLayer, 10);
+        cocos2d::Director::getInstance()->getRunningScene()->addChild(GameOverLayer::create(fakeLayer), 0);  
     }
 }
 
@@ -200,6 +210,7 @@ void GameScene::initEnemy() {
         this->addChild(enemy, 1);
         this->enemies.push_back(enemy);
     }
+    if (!this->enemies.empty()) { GameManager::getInstance()->setEnemy(true); }
 }
 
 void GameScene::initBoss() {

@@ -4,9 +4,11 @@
 #include "../Objects/Weapon/Sword.h"
 #include "../Objects/Item/Item.h"
 #include "../Objects/Item/Jar.h"
+#include "../Objects/Item/Coin.h"
 #include "../Objects/Person/Enemy.h"
 #include "../Objects/Person/Boss.h"
 #include "EffectManager.h"
+#include "../Factories/ItemFactory.h"
 
 bool CollisionManager::checkCollisionWithRects(Person* person) {
     //Boss
@@ -64,6 +66,12 @@ void CollisionManager::checkCollisionsSword(Weapon* weapon, std::vector<cocos2d:
             }
             if (dynamic_cast<Jar*>(sprite)) {
                 EffectManager::playSmokeEffect(sprite->getParent(), sprite->getPosition());
+
+                //Add coin
+                Item* item = ItemFactory::createItem("coin");
+                item->setPosition(cocos2d::Vec2(sprite->getPosition()));
+                sprite->getParent()->addChild(item, 1);
+                sprites.push_back(item);
             }
 
             // Xóa Enemy
@@ -71,8 +79,11 @@ void CollisionManager::checkCollisionsSword(Weapon* weapon, std::vector<cocos2d:
                 ++itSprite; //Boss cant kill with sword
             }
             else {
-                sprite->removeFromParentAndCleanup(true);
-                itSprite = sprites.erase(itSprite);
+                if (dynamic_cast<Coin*>(sprite))  ++itSprite;
+                else {
+                    sprite->removeFromParentAndCleanup(true);
+                    itSprite = sprites.erase(itSprite);
+                }
             }
         }
         else {
@@ -109,6 +120,10 @@ void CollisionManager::checkCollisionsBullet(std::vector<Bullet*>& bullets, std:
                 }
                 if (dynamic_cast<Jar*>(sprite)) {
                     EffectManager::playSmokeEffect(sprite->getParent(), sprite->getPosition());
+                    Item* item = ItemFactory::createItem("coin");
+                    item->setPosition(cocos2d::Vec2(sprite->getPosition()));
+                    sprite->getParent()->addChild(item, 1);
+                    sprites.push_back(item);
                 }
 
                 bulletHit = true;
@@ -120,13 +135,14 @@ void CollisionManager::checkCollisionsBullet(std::vector<Bullet*>& bullets, std:
                         sprite->removeFromParentAndCleanup(true);
                         itSprite = sprites.erase(itSprite);
                     }
-                    else {
-                        ++itSprite;
-                    }
+                    else ++itSprite;
                 }
                 else {
-                    sprite->removeFromParentAndCleanup(true);
-                    itSprite = sprites.erase(itSprite);
+                    if (dynamic_cast<Coin*>(sprite))  ++itSprite;
+                    else {
+                        sprite->removeFromParentAndCleanup(true);
+                        itSprite = sprites.erase(itSprite);
+                    }
                 }
             }
             else {
@@ -149,9 +165,20 @@ bool CollisionManager::checkCollisionWithPlayer(Player* player, std::vector<coco
     // Log vị trí của person
     cocos2d::Rect playerRect = player->getBoundingBox();
 
-    for (const cocos2d::Sprite* sprite : sprites) {
+    for (auto it = sprites.begin(); it != sprites.end(); ) {
+        cocos2d::Sprite* sprite = *it;
         if (playerRect.intersectsRect(sprite->getBoundingBox())) {
+            if (dynamic_cast<Coin*>(sprite)) {
+                sprite->removeFromParentAndCleanup(true);
+                it = sprites.erase(it);  // Xóa phần tử an toàn
+            }
+            else {
+                ++it;
+            }
             return true; // Có va chạm
+        }
+        else {
+            ++it;
         }
     }
     return false; // Không có va chạm

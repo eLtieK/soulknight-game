@@ -6,7 +6,7 @@ void EffectManager::playEffect(cocos2d::Node* parent, const cocos2d::Vec2& posit
 	auto sprite = cocos2d::Sprite::create();
 	sprite->setPosition(position);
     sprite->setScale(scaleFactor);
-	parent->addChild(sprite, 1);
+	parent->addChild(sprite, 2);
 
     auto animate = cocos2d::Animate::create(animation);
     auto sequence = cocos2d::Sequence::create(
@@ -30,5 +30,5 @@ void EffectManager::playSmokeEffect(cocos2d::Node* parent, const cocos2d::Vec2& 
     std::string prefix = "images/effects/smoke/";
     int frameCount = 6;
 
-    playEffect(parent, position, prefix, frameCount, 0.05f, 2.0f);
+    playEffect(parent, position, prefix, frameCount, 0.05f, 3.f);
 }
