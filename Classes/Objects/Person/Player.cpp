@@ -1,9 +1,9 @@
-#include "Player.h"
+﻿#include "Player.h"
 #include "../../Factories/WeaponFactory.h"
 #include "../../Scenes/GameScene.h"
 
 void Player::initAnimations() {
-    // Load c�c frame animation
+    // Load các frame animation
     animUp = createAnimation("images/Player/up/", 3, 0.1f);
     animDown = createAnimation("images/Player/down/", 3, 0.1f);
     animLeft = createAnimation("images/Player/left/", 3, 0.1f);
@@ -38,6 +38,22 @@ Player::Player(const std::string& spritePath) : Person(spritePath) {
     _eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
 }
 
+Player::~Player() {
+    // Xóa tất cả vũ khí trong danh sách weapons
+    for (Weapon* weapon : weapons) {
+        if (weapon) {
+            weapon->removeFromParentAndCleanup(true);
+            delete weapon;
+        }
+    }
+    weapons.clear();
+
+    // Xóa vũ khí hiện tại nếu chưa có trong weapons (tránh xóa 2 lần)
+    if (currentWeapon) {
+        currentWeapon = nullptr;
+    }
+}
+
 void Player::onCollision(Person* other) {
 
 }
@@ -58,6 +74,7 @@ void Player::switchWeapon() {
 }
 
 void Player::onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event) {
+    if (GameManager::getInstance()->getOver()) { return; }
     if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_A) this->direction_left = true;
     if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_D) this->direction_right = true;
     if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_S) this->direction_down = true;
@@ -66,6 +83,7 @@ void Player::onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Even
 }
 
 void Player::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event) {
+    if (GameManager::getInstance()->getOver()) { return; }
     if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_A) this->direction_left = false;
     if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_D) this->direction_right = false;
     if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_S) this->direction_down = false;
@@ -73,6 +91,7 @@ void Player::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Eve
 }
 
 void Player::onMouseDown(cocos2d::Event* event) {
+    if (GameManager::getInstance()->getOver()) { return; }
     cocos2d::EventMouse* mouseEvent = dynamic_cast<cocos2d::EventMouse*>(event);
     if (mouseEvent->getMouseButton() == cocos2d::EventMouse::MouseButton::BUTTON_LEFT) {
         this->currentWeapon->attack();

@@ -1,4 +1,4 @@
-#include "Person.h"
+﻿#include "Person.h"
 #include "../../Managers/CollisionManager.h"
 #include "../../Utils/loader.h"
 
@@ -15,6 +15,35 @@ Person::Person(const std::string& spritePath , float x, float y, float width, fl
         this->setColor(cocos2d::Color3B::WHITE);
     }
 }
+
+#include "Person.h"
+
+Person::~Person() {
+    // Giải phóng bộ nhớ của các animation nếu chúng tồn tại
+    if (animUp) {
+        animUp->release();
+        animUp = nullptr;
+    }
+    if (animDown) {
+        animDown->release();
+        animDown = nullptr;
+    }
+    if (animLeft) {
+        animLeft->release();
+        animLeft = nullptr;
+    }
+    if (animRight) {
+        animRight->release();
+        animRight = nullptr;
+    }
+
+    // Nếu đang chạy animation, dừng lại
+    if (animateAction) {
+        this->stopAction(animateAction);
+        animateAction = nullptr;
+    }
+}
+
 
 void Person::setPosition(const cocos2d::Vec2& pos) {
     this->x = pos.x; this->y = pos.y;

@@ -7,7 +7,7 @@
 class Person : public cocos2d::Sprite {
 public:
     Person(const std::string& spritePath = "", float x = WINDOW_WIDTH / 2, float y = WINDOW_HEIGHT / 2, float width = 50, float height = 50, float speed = 500);
-    /*virtual ~Person() = 0;*/
+    ~Person();
 
     virtual void initAnimations() = 0;
     virtual void move(float dt);

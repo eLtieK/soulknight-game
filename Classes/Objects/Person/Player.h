@@ -8,6 +8,7 @@
 class Player : public Person {
 public:
     Player(const std::string& spritePath = "");
+    ~Player();
     void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
     void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
     void onMouseDown(cocos2d::Event* event);

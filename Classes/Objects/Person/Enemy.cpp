@@ -74,6 +74,7 @@ void Enemy::move(float dt) {
 }
 
 void Enemy::update(float dt) {
+	if (GameManager::getInstance()->getOver()) { return; }
 	this->move(dt);
 	this->updateAnimation();
 }
