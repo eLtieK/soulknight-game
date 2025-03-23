@@ -8,6 +8,11 @@ Scene* MainMenuScene::createScene()
     return MainMenuScene::create();
 }
 
+void MainMenuScene::onAbout(cocos2d::Ref* sender) {
+    auto aboutLayer = AboutLayer::create();
+    this->addChild(aboutLayer, 1);
+}
+
 bool MainMenuScene::init()
 {
     if (!Scene::init()) {
@@ -18,16 +23,25 @@ bool MainMenuScene::init()
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
     // Tạo Label cho nút Start
-    auto label = Label::createWithTTF("START GAME", "fonts/Marker Felt.ttf", 48);
-    auto menuItem = MenuItemLabel::create(label, [](Ref* sender) {
+    auto playLabel = Label::createWithTTF("START GAME", "fonts/Marker Felt.ttf", 48);
+    auto playItem = MenuItemLabel::create(playLabel, [](Ref* sender) {
         auto gameScene = GameScene::createScene();
         Director::getInstance()->replaceScene(TransitionFade::create(0.2f, gameScene));
         });
 
-    menuItem->setPosition(visibleSize.width / 2, visibleSize.height / 2);
+    // Nút About
+    auto aboutLabel = Label::createWithTTF("ABOUT", "fonts/Marker Felt.ttf", 48);
+    auto aboutItem = MenuItemLabel::create(aboutLabel, CC_CALLBACK_1(MainMenuScene::onAbout, this));
+    //auto aboutItem = MenuItemLabel::create(aboutLabel);
 
-    auto menu = Menu::create(menuItem, nullptr);
-    menu->setPosition(Vec2::ZERO);
+    auto quitLabel = Label::createWithTTF("QUIT GAME", "fonts/Marker Felt.ttf", 48);
+    auto quitItem = MenuItemLabel::create(quitLabel, [](Ref* sender) {
+        Director::getInstance()->end();
+        });
+
+    auto menu = Menu::create(playItem, aboutItem, quitItem, nullptr);
+    menu->alignItemsVerticallyWithPadding(20);
+    menu->setPosition(visibleSize.width / 2, visibleSize.height / 2);
     this->addChild(menu);
 
     return true;

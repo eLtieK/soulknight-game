@@ -5,7 +5,7 @@
 
 class Boss : public Enemy {
 public:
-    Boss(const std::string& spritePath = "", int maxHits = 30); // Mặc định cần 30 hit để chết
+    Boss(const std::string& spritePath = "", int maxHits = 20); // Mặc định cần 25 hit để chết
     void onHit() { hitTaken++; }
     void initAnimations() override;
     bool isDefeated() const { return hitTaken >= maxHit; } // Kiểm tra nếu boss bị đánh bại

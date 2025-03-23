@@ -6,7 +6,7 @@
 
 GameOverLayer* GameOverLayer::instance = nullptr;
 
-GameOverLayer* GameOverLayer::createFake() {
+GameOverLayer* GameOverLayer::createFake(const std::string& title) {
     GameOverLayer* ret = new (std::nothrow) GameOverLayer();
     ret->setPosition(GameScene::getPlayer()->getPosition() - cocos2d::Director::getInstance()->getVisibleSize() / 2);
     if (ret && ret->initWithColor(cocos2d::Color4B(0, 0, 0, 180))) {
@@ -15,20 +15,20 @@ GameOverLayer* GameOverLayer::createFake() {
         cocos2d::Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
 
         // Tiêu đề "Game Over"
-        auto gameOverLabel = cocos2d::Label::createWithTTF("Game Over", "fonts/Marker Felt.ttf", 50);
+        auto gameOverLabel = cocos2d::Label::createWithTTF(title, "fonts/Marker Felt.ttf", 62);
         gameOverLabel->setPosition(cocos2d::Vec2(visibleSize.width / 2, visibleSize.height - 100));
         ret->addChild(gameOverLabel);
 
         // Nút New Game
-        auto newGameLabel = cocos2d::Label::createWithTTF("New Game", "fonts/Marker Felt.ttf", 36);
+        auto newGameLabel = cocos2d::Label::createWithTTF("New Game", "fonts/Marker Felt.ttf", 48);
         auto newGameButton = cocos2d::MenuItemLabel::create(newGameLabel);
 
         // Nút Main Menu
-        auto mainMenuLabel = cocos2d::Label::createWithTTF("Main Menu", "fonts/Marker Felt.ttf", 36);
+        auto mainMenuLabel = cocos2d::Label::createWithTTF("Main Menu", "fonts/Marker Felt.ttf", 48);
         auto mainMenuButton = cocos2d::MenuItemLabel::create(mainMenuLabel);
 
         // Nút Quit
-        auto quitLabel = cocos2d::Label::createWithTTF("Quit", "fonts/Marker Felt.ttf", 36);
+        auto quitLabel = cocos2d::Label::createWithTTF("Quit", "fonts/Marker Felt.ttf", 48);
         auto quitButton = cocos2d::MenuItemLabel::create(quitLabel);
 
         // Menu chứa các nút
@@ -52,20 +52,20 @@ GameOverLayer* GameOverLayer::create(GameOverLayer* other) {
         cocos2d::Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
 
         // Tiêu đề "Game Over"
-        auto gameOverLabel = cocos2d::Label::createWithTTF("Game Over", "fonts/Marker Felt.ttf", 50);
+        auto gameOverLabel = cocos2d::Label::createWithTTF("Game Over", "fonts/Marker Felt.ttf", 62);
         gameOverLabel->setPosition(cocos2d::Vec2(visibleSize.width / 2, visibleSize.height - 100));
         ret->addChild(gameOverLabel);
 
         // Nút New Game
-        auto newGameLabel = cocos2d::Label::createWithTTF("New Game", "fonts/Marker Felt.ttf", 36);
+        auto newGameLabel = cocos2d::Label::createWithTTF("New Game", "fonts/Marker Felt.ttf", 48);
         auto newGameButton = cocos2d::MenuItemLabel::create(newGameLabel, CC_CALLBACK_1(GameOverLayer::onNewGame, ret, other));
 
         // Nút Main Menu
-        auto mainMenuLabel = cocos2d::Label::createWithTTF("Main Menu", "fonts/Marker Felt.ttf", 36);
+        auto mainMenuLabel = cocos2d::Label::createWithTTF("Main Menu", "fonts/Marker Felt.ttf", 48);
         auto mainMenuButton = cocos2d::MenuItemLabel::create(mainMenuLabel, CC_CALLBACK_1(GameOverLayer::onMainMenu, ret, other));
 
         // Nút Quit
-        auto quitLabel = cocos2d::Label::createWithTTF("Quit", "fonts/Marker Felt.ttf", 36);
+        auto quitLabel = cocos2d::Label::createWithTTF("Quit", "fonts/Marker Felt.ttf", 48);
         auto quitButton = cocos2d::MenuItemLabel::create(quitLabel, CC_CALLBACK_1(GameOverLayer::onQuit, ret));
 
         // Menu chứa các nút

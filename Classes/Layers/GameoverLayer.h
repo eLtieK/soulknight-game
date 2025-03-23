@@ -6,7 +6,7 @@
 class GameOverLayer : public cocos2d::LayerColor {
 public:
     static GameOverLayer* create(GameOverLayer* other);
-    static GameOverLayer* createFake();
+    static GameOverLayer* createFake(const std::string& title);
 
     void onNewGame(cocos2d::Ref* sender, GameOverLayer* other);
     void onMainMenu(cocos2d::Ref* sender, GameOverLayer* other);
