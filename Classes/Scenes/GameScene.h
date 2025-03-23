@@ -5,6 +5,7 @@
 #include "./Utils/Loader.h"
 #include "./Factories/PlayerFactory.h"
 #include "./Factories/EnemyFactory.h"
+#include "./Factories/ItemFactory.h"
 #include "../Objects/Weapon/Bullet.h"
 
 class Enemy;
@@ -19,6 +20,7 @@ public:
     void initPlayer();
     void initEnemy();
     void initCam();
+    void initItem();
     void initCollisions();
 
     void update(float dt);
@@ -37,6 +39,7 @@ private:
     std::vector<Bullet*> bullets;
     static Player* player;
     std::vector<Enemy*> enemies;
+    std::vector<Item*> items;
     cocos2d::TMXTiledMap* tileMap;
     static std::vector<cocos2d::Rect> collisionRects;
 };

@@ -2699,46 +2699,19 @@
   </object>
  </objectgroup>
  <objectgroup id="5" name="Objects">
-  <object id="175" name="Jar" x="1449.33" y="1672">
+  <object id="180" name="Jar" x="1543.94" y="2608.42">
    <point/>
   </object>
-  <object id="177" name="Jar" x="738" y="2034">
+  <object id="181" name="Jar" x="2481.76" y="2341.94">
    <point/>
   </object>
-  <object id="178" name="Jar" x="1060" y="2594">
+  <object id="182" name="Jar" x="2166.73" y="2501.09">
    <point/>
   </object>
-  <object id="179" name="Jar" x="1530" y="2276">
-   <point/>
-  </object>
-  <object id="180" name="Jar" x="1850" y="2266">
-   <point/>
-  </object>
-  <object id="181" name="Jar" x="2506" y="2348">
-   <point/>
-  </object>
-  <object id="182" name="Jar" x="2194" y="2492">
-   <point/>
-  </object>
-  <object id="183" name="Jar" x="2640" y="1848">
+  <object id="183" name="Jar" x="2603.64" y="1854.06">
    <point/>
   </object>
   <object id="184" name="Jar" x="2568" y="1254">
-   <point/>
-  </object>
-  <object id="185" name="Jar" x="2128" y="1344">
-   <point/>
-  </object>
-  <object id="186" name="Jar" x="1844" y="1464">
-   <point/>
-  </object>
-  <object id="187" name="Jar" x="1322" y="1412">
-   <point/>
-  </object>
-  <object id="188" name="Jar" x="1554" y="1038">
-   <point/>
-  </object>
-  <object id="189" name="Jar" x="1304" y="888">
    <point/>
   </object>
   <object id="191" name="Jar" x="794" y="652">
@@ -2750,13 +2723,7 @@
   <object id="193" name="Jar" x="628" y="1766">
    <point/>
   </object>
-  <object id="194" name="Jar" x="1152" y="1426">
-   <point/>
-  </object>
-  <object id="195" name="Jar" x="634" y="2172">
-   <point/>
-  </object>
-  <object id="196" name="Jar" x="1008" y="2062">
+  <object id="195" name="Jar" x="624.909" y="2217.45">
    <point/>
   </object>
   <object id="197" name="Jar" x="2357.58" y="778.788">

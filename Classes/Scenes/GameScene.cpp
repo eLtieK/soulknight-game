@@ -42,6 +42,8 @@ bool GameScene::init()
 
     this->initCollisions();
 
+    this->initItem();
+
     this->initCam();
 
     this->scheduleUpdate();
@@ -56,7 +58,10 @@ void GameScene::update(float dt) {
     }
 
     //Collision
-    CollisionManager::checkCollisionWithWeapon(player->getCurrentWeapon(), bullets, enemies);
+    CollisionManager::checkCollisionWithWeapon(player->getCurrentWeapon(), bullets, reinterpret_cast<std::vector<cocos2d::Sprite*>&>(enemies));
+    CollisionManager::checkCollisionWithWeapon(player->getCurrentWeapon(), bullets, reinterpret_cast<std::vector<cocos2d::Sprite*>&>(items));
+    bool isColliding = CollisionManager::checkCollisionWithPlayer(player, reinterpret_cast<std::vector<cocos2d::Sprite*>&>(enemies));
+    CCLOG("Player Collision: %s", isColliding ? "YES" : "NO");
 }
 
 void GameScene::initCam() {
@@ -143,6 +148,26 @@ void GameScene::initEnemy() {
     }
 }
 
+void GameScene::initItem() {
+    auto objectGroup = tileMap->getObjectGroup("Objects");
+    auto objects = objectGroup->getObjects();
+    for (const auto& obj : objects) {
+        auto objMap = obj.asValueMap();
+
+        std::string objName = objMap["name"].asString();
+        if (objName != "Jar") continue;
+
+        float x = objMap["x"].asFloat();
+        float y = objMap["y"].asFloat();
+
+        Item* item = ItemFactory::createItem("jar");
+        item->setPosition(Vec2(x, y));
+
+        this->addChild(item);
+        this->items.push_back(item);
+    }
+}
+
 void GameScene::initCollisions() {
     auto objectGroup = tileMap->getObjectGroup("Collisions");
     auto objects = objectGroup->getObjects();
@@ -157,10 +182,5 @@ void GameScene::initCollisions() {
 
         cocos2d::Rect rect(x, y, width, height);
         collisionRects.push_back(rect);
-
-        // Tạo một hình chữ nhật trắng để debug
-        /*auto debugRect = cocos2d::DrawNode::create();
-        debugRect->drawRect(cocos2d::Vec2(x, y), cocos2d::Vec2(x + width, y + height), cocos2d::Color4F::WHITE);
-        tileMap->addChild(debugRect);*/
     }
 }
