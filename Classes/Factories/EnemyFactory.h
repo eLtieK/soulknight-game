@@ -2,6 +2,7 @@
 #define ENEMY_FACTORY_H
 
 #include "../Objects/Person/Enemy.h"
+#include "../Objects/Person/Boss.h"
 
 class EnemyFactory {
 public:

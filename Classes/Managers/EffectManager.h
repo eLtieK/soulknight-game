@@ -7,7 +7,8 @@
 class EffectManager {
 public:
     static void playBleedEffect(cocos2d::Node* parent, const cocos2d::Vec2& position);
-    static void playEffect(cocos2d::Node* parent, const cocos2d::Vec2& position, const std::string& path, int frameCount, float delay);
+    static void playSmokeEffect(cocos2d::Node* parent, const cocos2d::Vec2& position);
+    static void playEffect(cocos2d::Node* parent, const cocos2d::Vec2& position, const std::string& path, int frameCount, float delay, float scaleFactor);
 
 private:
 };

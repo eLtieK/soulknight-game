@@ -13,7 +13,6 @@ public:
     virtual void move(float dt);
     virtual void update(float dt);
     virtual void updateAnimation();
-    virtual void onCollision(Person* other) = 0;
 
     // setter
     void setSpeed(float speed) { this->speed = speed; };

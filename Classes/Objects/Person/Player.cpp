@@ -57,10 +57,6 @@ Player::~Player() {
     }
 }
 
-void Player::onCollision(Person* other) {
-
-}
-
 void Player::update(float dt) {
     this->move(dt);
     this->currentWeapon->update(dt);

@@ -14,7 +14,6 @@ public:
     void onMouseDown(cocos2d::Event* event);
     void update(float dt) override;
     void updateAnimation() override;
-    void onCollision(Person* other) override;
     void initAnimations() override;
     void switchWeapon();
 

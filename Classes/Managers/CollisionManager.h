@@ -2,10 +2,8 @@
 #define COLLISION_MANAGER_H
 
 #include "cocos2d.h"
-#include "../Objects/Person/Enemy.h"
 #include "../Objects/Person/Player.h"
 #include "../Objects/Weapon/Bullet.h"
-#include "../Objects/Item/Item.h"
 
 class CollisionManager {
 public:
