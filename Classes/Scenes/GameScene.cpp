@@ -4,19 +4,55 @@
 USING_NS_CC;
 
 const char* MAP_PATH = "data/maps/world1.tmx";
-const char* MAP_PATH_1 = "newmap.tmx";
 
 Player* GameScene::player = nullptr;
 std::vector<cocos2d::Rect> GameScene::collisionRects;
 
 GameScene::~GameScene() {
+    // Xóa danh sách enemy
     for (Enemy* enemy : this->enemies) {
-        delete enemy;
+        if (enemy) {
+            enemy->removeFromParentAndCleanup(true);
+            delete enemy;
+        }
     }
     this->enemies.clear();
 
-    if (GameScene::player) delete GameScene::player;
+    // Xóa danh sách bullet
+    for (Bullet* bullet : this->bullets) {
+        if (bullet) {
+            bullet->removeFromParentAndCleanup(true);
+            delete bullet;
+        }
+    }
+    this->bullets.clear();
+
+    // Xóa danh sách item
+    for (Item* item : this->items) {
+        if (item) {
+            item->removeFromParentAndCleanup(true);
+            delete item;
+        }
+    }
+    this->items.clear();
+
+    // Giải phóng Player (nếu tồn tại)
+    /*if (GameScene::player) {
+        GameScene::player->removeFromParentAndCleanup(true);
+        delete GameScene::player;
+        GameScene::player = nullptr;
+    }*/
+
+    // Xóa bản đồ (tileMap)
+    if (tileMap) {
+        tileMap->removeFromParentAndCleanup(true);
+        tileMap = nullptr;
+    }
+
+    // Xóa danh sách collisionRects
+    /*GameScene::collisionRects.clear();*/
 }
+
 
 Scene* GameScene::createScene()
 {
@@ -33,6 +69,8 @@ bool GameScene::init()
 
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+    GameManager::getInstance()->setOver(false);
 
     this->initMap();
 
@@ -51,6 +89,8 @@ bool GameScene::init()
 }
 
 void GameScene::update(float dt) {
+    if (GameManager::getInstance()->getOver()) { return; }
+
     this->player->update(dt);
 
     for (Enemy* enemy : this->enemies) {
@@ -60,8 +100,14 @@ void GameScene::update(float dt) {
     //Collision
     CollisionManager::checkCollisionWithWeapon(player->getCurrentWeapon(), bullets, reinterpret_cast<std::vector<cocos2d::Sprite*>&>(enemies));
     CollisionManager::checkCollisionWithWeapon(player->getCurrentWeapon(), bullets, reinterpret_cast<std::vector<cocos2d::Sprite*>&>(items));
-    bool isColliding = CollisionManager::checkCollisionWithPlayer(player, reinterpret_cast<std::vector<cocos2d::Sprite*>&>(enemies));
-    CCLOG("Player Collision: %s", isColliding ? "YES" : "NO");
+
+    bool isOver = CollisionManager::checkCollisionWithPlayer(player, reinterpret_cast<std::vector<cocos2d::Sprite*>&>(enemies));
+    if (isOver) {
+        GameManager::getInstance()->setOver(isOver);
+        GameOverLayer* fakeLayer = GameOverLayer::createFake();
+        cocos2d::Director::getInstance()->getRunningScene()->addChild(fakeLayer, 10);
+        cocos2d::Director::getInstance()->getRunningScene()->addChild(GameOverLayer::create(fakeLayer), 0);
+    }
 }
 
 void GameScene::initCam() {
@@ -78,7 +124,7 @@ void GameScene::initMap() {
         return;
     }
 
-    this->addChild(tileMap);
+    this->addChild(tileMap, 1);
 }
 
 void GameScene::removeBullet(Bullet* bullet) {
@@ -117,7 +163,8 @@ void GameScene::initPlayer() {
             // Tạo player tại vị trí này
             this->player = PlayerFactory::createPlayer("");
             this->player->setPosition(cocos2d::Vec2(WINDOW_WIDTH / 2,WINDOW_HEIGHT / 2 + 100));
-            this->addChild(this->player);
+
+            this->addChild(this->player, 1);
             return;
         }
     }
@@ -143,7 +190,7 @@ void GameScene::initEnemy() {
 
         enemy->setSpeed(speed);
 
-        this->addChild(enemy);
+        this->addChild(enemy, 1);
         this->enemies.push_back(enemy);
     }
 }
@@ -163,7 +210,7 @@ void GameScene::initItem() {
         Item* item = ItemFactory::createItem("jar");
         item->setPosition(Vec2(x, y));
 
-        this->addChild(item);
+        this->addChild(item, 1);
         this->items.push_back(item);
     }
 }

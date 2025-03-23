@@ -7,6 +7,9 @@
 #include "./Factories/EnemyFactory.h"
 #include "./Factories/ItemFactory.h"
 #include "../Objects/Weapon/Bullet.h"
+#include "../Managers/GameManager.h"
+#include "../Layers/GameoverLayer.h"
+#include "../Layers/AboutLayer.h"
 
 class Enemy;
 
