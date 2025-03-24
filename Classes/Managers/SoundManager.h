@@ -14,6 +14,10 @@ public:
     static void playJar();
     static void playButton();
     static void playTheme();
+    static void playEquip();
+    static void playWin();
+    static void playFail();
+    static void playBoss();
 
     static void stopMove();
 

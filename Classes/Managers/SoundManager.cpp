@@ -47,6 +47,22 @@ void SoundManager::playButton() {
     SoundManager::playEffect("sounds/button.mp3");
 }
 
+void SoundManager::playEquip() {
+    SoundManager::playEffect("sounds/equip.mp3");
+}
+
+void SoundManager::playWin() {
+    SoundManager::playEffect("sounds/win.mp3");
+}
+
+void SoundManager::playFail() {
+    SoundManager::playEffect("sounds/fail.mp3");
+}
+
+void SoundManager::playBoss() {
+    SoundManager::playEffect("sounds/boss.mp3");
+}
+
 void SoundManager::playTheme() {
     if (themeSoundId != -1 && cocos2d::AudioEngine::getState(themeSoundId) == cocos2d::AudioEngine::AudioState::PLAYING) {
         return;

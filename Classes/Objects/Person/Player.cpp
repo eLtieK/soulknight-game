@@ -84,6 +84,7 @@ void Player::updateAnimation() {
 }
 
 void Player::switchWeapon() {
+    SoundManager::playEquip();
     this->currentWeapon->removeFromParentAndCleanup(true);
 
     this->weaponIndex = (weaponIndex + 1) % weapons.size();
