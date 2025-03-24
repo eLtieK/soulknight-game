@@ -9,6 +9,7 @@ class MainMenuScene : public cocos2d::Scene
 public:
     static cocos2d::Scene* createScene();
     void onAbout(cocos2d::Ref* sender);
+    void initBackground();
     virtual bool init();
     CREATE_FUNC(MainMenuScene);
 };

@@ -64,6 +64,7 @@ void CollisionManager::checkCollisionsSword(Weapon* weapon, std::vector<cocos2d:
             CCLOG("Sword hit Enemy! Enemy Removed");
             if (dynamic_cast<Enemy*>(sprite)) {
                 EffectManager::playBleedEffect(sprite->getParent(), sprite->getPosition());
+                if (!dynamic_cast<Boss*>(sprite)) GameManager::getInstance()->setEnemyLeft(-1);
                 SoundManager::playBleed();
                 SoundManager::playSword();
             }

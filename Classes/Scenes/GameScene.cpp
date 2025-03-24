@@ -1,5 +1,6 @@
 ﻿#include "GameScene.h"
 #include "../Managers/CollisionManager.h"
+#include "../Managers/SoundManager.h"
 
 USING_NS_CC;
 
@@ -112,7 +113,8 @@ void GameScene::update(float dt) {
     CollisionManager::checkCollisionWithPlayer(player, reinterpret_cast<std::vector<cocos2d::Sprite*>&>(items));
 
     bool isOver = CollisionManager::checkCollisionWithPlayer(player, reinterpret_cast<std::vector<cocos2d::Sprite*>&>(enemies));
-    if (isOver) {
+    if (isOver && !GameManager::getInstance()->getOver()) {
+        SoundManager::playFail();
         GameManager::getInstance()->setOver(isOver);
         GameOverLayer* fakeLayer = GameOverLayer::createFake("Game Over");
         cocos2d::Director::getInstance()->getRunningScene()->addChild(fakeLayer, 10);
@@ -120,12 +122,14 @@ void GameScene::update(float dt) {
     }
 
     //Boss
-    if (this->enemies.size() == 5 && !GameManager::getInstance()->getBoss() && GameManager::getInstance()->getEnemy()) {
+    if ((this->enemies.size() <= 5 && this->enemies.size() > 0) && !GameManager::getInstance()->getBoss() && GameManager::getInstance()->getEnemy()) {
+        SoundManager::playBoss();
         GameManager::getInstance()->setBoss(true);
         GameManager::getInstance()->setEnemy(false);
         this->initBoss();
     }
     if (this->enemies.empty() && GameManager::getInstance()->getBoss()) {
+        SoundManager::playWin();
         GameManager::getInstance()->setOver(true);
         GameManager::getInstance()->setBoss(false);
         GameOverLayer* fakeLayer = GameOverLayer::createFake("Victory");
@@ -135,6 +139,7 @@ void GameScene::update(float dt) {
 }
 
 void GameScene::initCam() {
+    //auto follow = Follow::create(player);
     auto follow = Follow::create(player, Rect(0, 0, tileMap->getContentSize().width, tileMap->getContentSize().height));
     this->runAction(follow);
 }
